@@ -111,5 +111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orbitCenter: {fileID: 0}
-  doFlip: 0
   radius: 2
+  speed: 1
+  isMoon: 1

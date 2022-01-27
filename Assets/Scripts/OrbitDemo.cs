@@ -2,21 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(LineRenderer))]
 public class OrbitDemo : MonoBehaviour
 {
 
     public Transform orbitCenter;
-    public bool doFlip = false;
+    private LineRenderer linePath;
 
     public float radius = 2;
     public float speed = 1;
+    public bool isMoon = false;
 
     private float timer = 0;
+    public float timeMult = 1f;
     // Start is called before the first frame update
     void Start()
     {
-        timer = Random.Range(0, 3);
-        speed = Random.Range(.2f, 1.2f);
+        linePath = GetComponent<LineRenderer>();
+        timer = Random.Range(0, 6);
+        speed = Random.Range(.2f, .8f);
+        
     }
 
     // Update is called once per frame
@@ -24,12 +30,35 @@ public class OrbitDemo : MonoBehaviour
     {
         if (!orbitCenter) return;
 
-        timer += Time.deltaTime * speed;
+        timer += Time.deltaTime * timeMult;
 
-        var x = Mathf.Cos(timer) * radius;
+        var x = Mathf.Cos(timer * speed) * radius;
         var y = orbitCenter.position.y;
-        var z = Mathf.Sin(timer) * radius;
+        var z = Mathf.Sin(timer * speed) * radius;
 
         transform.position = new Vector3(x, y, z) + orbitCenter.position;
+
+        if (orbitCenter.hasChanged && !isMoon) UpdateOrbitPath();
+    }
+
+    void UpdateOrbitPath()
+    {
+        if (!orbitCenter) return;
+
+        int res = 36;
+
+        Vector3[] points = new Vector3[res];
+
+        float conv = Mathf.PI / (res * .5f);
+
+        for(int i = 0; i < points.Length; i++)
+        {
+            float x = Mathf.Cos(i * conv) * radius;
+            float z = Mathf.Sin(i * conv) * radius;
+
+            points[i] = new Vector3(x, 0, z) + orbitCenter.position;
+        }
+        linePath.positionCount = res;
+        linePath.SetPositions(points);
     }
 }
