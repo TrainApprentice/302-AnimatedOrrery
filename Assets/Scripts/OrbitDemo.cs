@@ -14,6 +14,8 @@ public class OrbitDemo : MonoBehaviour
     public float speed = 1;
     public bool isMoon = false;
 
+    private float rotSpeed = 1;
+    private float currRot = 0;
     private float timer = 0;
     public float timeMult = 1f;
     // Start is called before the first frame update
@@ -22,7 +24,7 @@ public class OrbitDemo : MonoBehaviour
         linePath = GetComponent<LineRenderer>();
         timer = Random.Range(0, 6);
         speed = Random.Range(.2f, .8f);
-        
+        rotSpeed = (isMoon) ? Random.Range(.01f, .02f) : Random.Range(.02f, .08f);
     }
 
     // Update is called once per frame
@@ -31,12 +33,16 @@ public class OrbitDemo : MonoBehaviour
         if (!orbitCenter) return;
 
         timer += Time.deltaTime * timeMult;
+        currRot += rotSpeed * timeMult;
+
 
         var x = Mathf.Cos(timer * speed) * radius;
         var y = orbitCenter.position.y;
         var z = Mathf.Sin(timer * speed) * radius;
 
         transform.position = new Vector3(x, y, z) + orbitCenter.position;
+
+        transform.rotation = Quaternion.Euler(0, currRot, 0);
 
         if (orbitCenter.hasChanged && !isMoon) UpdateOrbitPath();
     }

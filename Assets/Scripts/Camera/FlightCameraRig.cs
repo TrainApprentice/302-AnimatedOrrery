@@ -7,8 +7,8 @@ public class FlightCameraRig : MonoBehaviour
     public float flySpeed = 10;
 
     
-    public float mouseSensitivityX = 1.5f;
-    public float mouseSensitivityY = 1.5f;
+    public float mouseSensitivityX = 1f;
+    public float mouseSensitivityY = 1f;
 
     private float pitch = 0, yaw = 0;
     
@@ -26,12 +26,19 @@ public class FlightCameraRig : MonoBehaviour
         transform.position += direction * Time.deltaTime * flySpeed;
 
         // Update Rotation
-        yaw += Input.GetAxis("Mouse X") * mouseSensitivityX; // Yaw (y)
-        pitch -= Input.GetAxis("Mouse Y") * mouseSensitivityY; // Pitch (x)
 
-        pitch = Mathf.Clamp(pitch, -89, 89);
+        if (Input.GetMouseButton(1))
+        {
+            yaw += Input.GetAxis("Mouse X") * mouseSensitivityX; // Yaw (y)
+            pitch -= Input.GetAxis("Mouse Y") * mouseSensitivityY; // Pitch (x)
 
-        transform.rotation = Quaternion.Euler(pitch, yaw, 0);
+            pitch = Mathf.Clamp(pitch, -89, 89);
+
+            transform.rotation = Quaternion.Euler(pitch, yaw, 0);
+        }
+
+        flySpeed = (Input.GetKey("left shift")) ? 30 : 10;
+            
         
 
     }

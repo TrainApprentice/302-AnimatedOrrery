@@ -50,7 +50,7 @@ public class OrbitCameraRig : MonoBehaviour
 
         // Position
         if (thingToLookAt == null) return;
-        if (Vector3.Distance(transform.position, thingToLookAt.position) > 1f) transform.position = AnimMath.Ease(transform.position, thingToLookAt.position, .001f);
+        if (Vector3.Distance(transform.position, thingToLookAt.position) > .01f) transform.position = AnimMath.Ease(transform.position, thingToLookAt.position, .001f);
         else transform.position = thingToLookAt.position;
         
 

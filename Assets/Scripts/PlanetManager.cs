@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlanetManager : MonoBehaviour
 {
 
     public GameObject planetBase, moonBase, sun;
     public GameObject cam;
+
+    public Button nextButton, prevButton, sunButton, toggleCameraButton;
+    public GameObject timeSliderHandle;
 
     private GameObject[] planets = new GameObject[5];
     private List<GameObject> moons = new List<GameObject>();
@@ -16,10 +21,11 @@ public class PlanetManager : MonoBehaviour
     private bool isOrbitCamera = true;
     private bool isPaused = false;
 
+
     // Start is called before the first frame update
     void Start()
     {
-        CreatePlanets();
+        CreatePlanets(5);
         isOrbitCamera = cam.GetComponent<OrbitCameraRig>();
 
         if (isOrbitCamera) cam.GetComponent<OrbitCameraRig>().thingToLookAt = (currPlanet != 5) ? planets[currPlanet].transform : sun.transform;
@@ -43,13 +49,20 @@ public class PlanetManager : MonoBehaviour
     }
     
 
-    void CreatePlanets()
+    void CreatePlanets(int numPlanets)
     {
-        for (int i = 0; i < 5; i++)
+        List<int> matNums = new List<int>();
+        for (int i = 0; i < numPlanets; i++)
         {
             var newPlanet = Instantiate(planetBase);
             newPlanet.GetComponent<OrbitDemo>().radius = i * 10 + 10;
             newPlanet.GetComponent<OrbitDemo>().orbitCenter = sun.transform;
+
+            int randTexture = (int)Random.Range(0, 10);
+            while (matNums.Contains(randTexture)) randTexture = (int)Random.Range(0, numPlanets);
+
+            newPlanet.GetComponent<SetPlanetMat>().ApplyMat(randTexture);
+            matNums.Add(randTexture);
 
             int randomScale = (int)Random.Range(2, 6);
             newPlanet.transform.localScale = new Vector3(randomScale, randomScale, randomScale);
@@ -110,6 +123,8 @@ public class PlanetManager : MonoBehaviour
         {
             m.GetComponent<OrbitDemo>().timeMult = num;
         }
+        timeSliderHandle.GetComponentInChildren<TMP_Text>().text = (Mathf.Round((num * 100)) / 100f).ToString();
+        
     }
 
     public void NextPlanetButton()
@@ -135,6 +150,36 @@ public class PlanetManager : MonoBehaviour
     {
         currPlanet = 0;
         if (isOrbitCamera) cam.GetComponent<OrbitCameraRig>().thingToLookAt = sun.transform;
+    }
+
+    public void ToggleCamera()
+    {
+       if(isOrbitCamera)
+       {
+            cam.GetComponent<OrbitCameraRig>().enabled = false;
+            cam.GetComponent<FlightCameraRig>().enabled = true;
+
+            nextButton.enabled = false;
+            prevButton.enabled = false;
+            sunButton.enabled = false;
+
+            toggleCameraButton.GetComponentInChildren<TMP_Text>().text = "Orbital Camera";
+
+            isOrbitCamera = !isOrbitCamera;
+       }
+       else
+       {
+            cam.GetComponent<OrbitCameraRig>().enabled = true;
+            cam.GetComponent<FlightCameraRig>().enabled = false;
+
+            nextButton.enabled = true;
+            prevButton.enabled = true;
+            sunButton.enabled = true;
+
+            toggleCameraButton.GetComponentInChildren<TMP_Text>().text = "Free Roam Camera";
+
+            isOrbitCamera = !isOrbitCamera;
+        }
     }
     #endregion 
 
