@@ -119,7 +119,6 @@ public class PlanetManager : MonoBehaviour
     {
         if (currPlanet < 4) currPlanet++;
         else currPlanet = 0;
-        //print(currPlanet);
 
         if (isOrbitCamera) cam.GetComponent<OrbitCameraRig>().thingToLookAt =  planets[currPlanet].transform;
     }
@@ -128,7 +127,6 @@ public class PlanetManager : MonoBehaviour
     {
         if (currPlanet > 0) currPlanet--;
         else currPlanet = 4;
-        //print(currPlanet);
 
         if (isOrbitCamera) cam.GetComponent<OrbitCameraRig>().thingToLookAt = planets[currPlanet].transform;
     }
@@ -147,9 +145,9 @@ public class PlanetManager : MonoBehaviour
             cam.GetComponent<OrbitCameraRig>().enabled = false;
             cam.GetComponent<FlightCameraRig>().enabled = true;
 
-            nextButton.enabled = false;
-            prevButton.enabled = false;
-            sunButton.enabled = false;
+            nextButton.gameObject.SetActive(false);
+            prevButton.gameObject.SetActive(false);
+            sunButton.gameObject.SetActive(false);
 
             toggleCameraButton.GetComponentInChildren<TMP_Text>().text = "Orbital Camera";
 
@@ -160,9 +158,9 @@ public class PlanetManager : MonoBehaviour
             cam.GetComponent<OrbitCameraRig>().enabled = true;
             cam.GetComponent<FlightCameraRig>().enabled = false;
 
-            nextButton.enabled = true;
-            prevButton.enabled = true;
-            sunButton.enabled = true;
+            nextButton.gameObject.SetActive(true);
+            prevButton.gameObject.SetActive(true);
+            sunButton.gameObject.SetActive(true);
 
             toggleCameraButton.GetComponentInChildren<TMP_Text>().text = "Free Roam Camera";
 
