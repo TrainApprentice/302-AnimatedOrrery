@@ -23,19 +23,7 @@ public class OrbitCameraRig : MonoBehaviour
     void Update()
     {
         // Rotation
-        /*
-        Vector3 directionToTarget = thingToLookAt.position - cam.transform.position;
-
-        Vector3 targetPos = -directionToTarget;
-        targetPos.Normalize();
-        targetPos *= zoom;
-
-        targetPos += thingToLookAt.position;
-
-        cam.transform.position = AnimMath.Ease(cam.transform.position, targetPos, .001f);
-
-        cam.transform.rotation = Quaternion.LookRotation(directionToTarget);
-        */
+        
         if (Input.GetMouseButton(1))
         {
             yaw += Input.GetAxis("Mouse X") * mouseSensitivityX; // Yaw (y)
@@ -45,24 +33,25 @@ public class OrbitCameraRig : MonoBehaviour
 
             transform.rotation = Quaternion.Euler(pitch, yaw, 0);
         } 
-        
-        
 
-        // Position
-        if (thingToLookAt == null) return;
-        if (Vector3.Distance(transform.position, thingToLookAt.position) > .01f) transform.position = AnimMath.Ease(transform.position, thingToLookAt.position, .001f);
-        else transform.position = thingToLookAt.position;
         
 
         // Dolly
         Vector2 scrollAmt = Input.mouseScrollDelta;
         zoom -= scrollAmt.y * scrollSensitivity;
 
-        zoom = Mathf.Clamp(zoom, 10, 70);
+        zoom = Mathf.Clamp(zoom, 10, 80);
 
         float z = AnimMath.Ease(cam.transform.localPosition.z, -zoom, .01f);
         
         cam.transform.localPosition = new Vector3(0, 0, z);
 
+    }
+    void LateUpdate()
+    {
+        // Position
+        if (thingToLookAt == null) return;
+        if (Vector3.Distance(transform.position, thingToLookAt.position) > .01f) transform.position = AnimMath.Ease(transform.position, thingToLookAt.position, .001f);
+        else transform.position = thingToLookAt.position;
     }
 }

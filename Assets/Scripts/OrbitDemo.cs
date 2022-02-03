@@ -24,7 +24,7 @@ public class OrbitDemo : MonoBehaviour
         linePath = GetComponent<LineRenderer>();
         timer = Random.Range(0, 6);
         speed = Random.Range(.2f, .8f);
-        rotSpeed = (isMoon) ? Random.Range(.01f, .02f) : Random.Range(.02f, .08f);
+        rotSpeed = (isMoon) ? Random.Range(.02f, .05f) : Random.Range(.03f, .08f);
     }
 
     // Update is called once per frame
