@@ -7,7 +7,7 @@ using TMPro;
 public class PlanetManager : MonoBehaviour
 {
 
-    public GameObject planetBase, moonBase, sun;
+    public GameObject planetBase, moonBase, nameBase, sun;
     public GameObject cam;
 
     public Button nextButton, prevButton, sunButton, toggleCameraButton;
@@ -30,25 +30,7 @@ public class PlanetManager : MonoBehaviour
 
         if (isOrbitCamera) cam.GetComponent<OrbitCameraRig>().thingToLookAt = (currPlanet != 5) ? planets[currPlanet].transform : sun.transform;
     }
-
     
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown("space"))
-        {
-            if (currPlanet < 5) currPlanet++;
-            else currPlanet = 0;
-            //print(currPlanet);
-
-            if (isOrbitCamera) cam.GetComponent<OrbitCameraRig>().thingToLookAt = (currPlanet != 5) ? planets[currPlanet].transform : sun.transform;
-            
-        }
-
-        //if (Input.GetKeyDown("p")) PauseAll();
-    }
-    
-
     void CreatePlanets(int numPlanets)
     {
         List<int> matNums = new List<int>();

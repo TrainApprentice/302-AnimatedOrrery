@@ -11,14 +11,17 @@ public class SetPlanetMat : MonoBehaviour
 
     public string[] planetNames = new string[10];
 
-    public GameObject name;
+    public GameObject nameBase;
     // Start is called before the first frame update
     
     public void ApplyMat(int selection)
     {
         if (selection < 0 || selection > mats.Length - 1) return;
         material.material.mainTexture = mats[selection];
-        name.GetComponent<TMP_Text>().text = planetNames[selection];
+
+        GameObject name = Instantiate(nameBase, transform.position, Quaternion.identity);
+        name.GetComponent<PlanetNameFollow>().target = gameObject;
+        name.GetComponentInChildren<TMP_Text>().text = planetNames[selection];
         
     }
 

@@ -1514,6 +1514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetBase: {fileID: 5105300077767873033, guid: 283fec324999f074794ad56c29962552, type: 3}
   moonBase: {fileID: 3481150502581803660, guid: 1aa04ab9e0fc2884891c69491e38d3d9, type: 3}
+  nameBase: {fileID: 0}
   sun: {fileID: 1653592634}
   cam: {fileID: 1566080910}
   nextButton: {fileID: 1251928266}
