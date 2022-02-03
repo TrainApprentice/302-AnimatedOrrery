@@ -12,6 +12,7 @@ public class PlanetManager : MonoBehaviour
 
     public Button nextButton, prevButton, sunButton, toggleCameraButton;
     public GameObject timeSliderHandle;
+    public GameObject credits;
 
     private GameObject[] planets = new GameObject[5];
     private List<GameObject> moons = new List<GameObject>();
@@ -19,7 +20,7 @@ public class PlanetManager : MonoBehaviour
     private int currPlanet = 5;
 
     private bool isOrbitCamera = true;
-    private bool isPaused = false;
+    
 
 
     // Start is called before the first frame update
@@ -95,6 +96,11 @@ public class PlanetManager : MonoBehaviour
     }
 
     #region UI Functions
+    public void SwapCredits()
+    {
+        credits.SetActive(!credits.activeInHierarchy);
+    }
+
     public void UpdateTimeMultiplier(float num)
     {
         foreach (GameObject p in planets)
